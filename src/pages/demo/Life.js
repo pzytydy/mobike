@@ -1,7 +1,7 @@
 import React from 'react';
 import './Child';
 import Child from './Child';
-import 'antd/dist/antd.css';
+import 'antd/dist/antd.less';
 
 import { Button } from 'antd';
 
