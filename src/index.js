@@ -3,10 +3,10 @@ import ReactDOM from 'react-dom';
 import './index.css';
 // import Life from '../src/pages/demo/Life';
 import * as serviceWorker from './serviceWorker';
-import Admin from './admin'
 
+import IRouter from './router'
 
-ReactDOM.render(<Admin />, document.getElementById('root'));
+ReactDOM.render(<IRouter />, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

@@ -29,7 +29,7 @@ export default class Header extends React.Component{
             // console.log(res)
             if (res.status=='success') {
                 // console.log(res.result[0].weather_data[0])
-                console.log(res.results[0].weather_data[0])
+                // console.log(res.results[0].weather_data[0])
                 let data = res.results[0].weather_data[0];
 
                 this.setState({
