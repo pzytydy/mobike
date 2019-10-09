@@ -9,6 +9,9 @@ import Loadings from './pages/ui/loadings'
 import Notice from './pages/ui/notification'
 import Tabs from './pages/ui/tabs'
 import Gallery from './pages/ui/gallerys'
+import BasicTab from './pages/table/basicTable'
+import HighTable from './pages/table/highTable'
+
 import NoMatch from './pages/nomatch'
 export default class IRouter extends React.Component{
 
@@ -20,15 +23,19 @@ export default class IRouter extends React.Component{
                     <Route path="/admin" component={Admin}/>
                     <Route path="/order/detail" component={}/> */}
                     <Route path="/login" component={Login}></Route>
-                    <Route path="/admin" render={()=>
+                    <Route path="/" render={()=>
                         <Admin>
                              <Switch>
-                                <Route path="/admin/ui/buttons" component={Button}></Route>
-                                <Route path="/admin/ui/modals" component={Modals}></Route>
-                                <Route path="/admin/ui/loadings" component={Loadings}></Route>
-                                <Route path="/admin/ui/notification" component={Notice}></Route>
-                                <Route path="/admin/ui/tabs" component={Tabs}></Route>
-                                <Route path="/admin/ui/gallery" component={Gallery}></Route>
+                                <Route path="/ui/buttons" component={Button}></Route>
+                                <Route path="/ui/modals" component={Modals}></Route>
+                                <Route path="/ui/loadings" component={Loadings}></Route>
+                                <Route path="/ui/notification" component={Notice}></Route>
+                                <Route path="/ui/tabs" component={Tabs}></Route>
+                                <Route path="/ui/gallery" component={Gallery}></Route>
+                                <Route path="/table/basic" component={BasicTab}></Route>
+                                <Route path="/table/high" component={HighTable}></Route>
+
+
 
                                 <Route  component={NoMatch}></Route>
                                 
