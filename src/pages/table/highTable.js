@@ -1,11 +1,12 @@
 import React from 'react';
 import {Card,Button,Spin,Icon,Alert,Tabs,Table, Divider, Tag, Modal, message} from 'antd'
 import axios from './../../axios/index'
-import Utils from './../../utils/utils'
-export default class BasicTab extends React.Component{
+export default class HighTable extends React.Component{
     
     state ={
-        dataSource:[]
+        sortedInfo: null,
+
+        dataSource:[],
     };
     params={
         page:1
@@ -16,11 +17,28 @@ export default class BasicTab extends React.Component{
         this.request()
     }
     
+    setAgeSort = () => {
+        this.setState({
+          sortedInfo: {
+            order: 'descend',
+            columnKey: 'age',
+          },
+        });
+      };
+
+    //排序
+    handleChange = (pagination, filters, sorter) => {
+        console.log('Various parameters', pagination, filters, sorter);
+        this.setState({
+          sortedInfo: sorter,
+        });
+      };
+
    //动态获取mock数据
    request = ()=>{
        let _this = this;
         axios.ajax({
-            url:'/table/lists',
+            url:'/tables/list',
             data:{
                 params:{
                     page:this.params.page
@@ -33,12 +51,8 @@ export default class BasicTab extends React.Component{
                 })
                 this.setState({
                     dataSource:res.result.list,
-                    selectedRowKeys:[],
-                    selectedRows:null,
-                    pagination:Utils.pagination(res,(current)=>{
-                        _this.params.page = current;
-                        this.request();
-                    })
+                  
+                   
                 })
                 
             }
@@ -145,6 +159,81 @@ export default class BasicTab extends React.Component{
                 dataIndex: 'time'
             }
         ]
+        const columns1 = [
+            {
+                title:'id',
+                key:'id',
+                dataIndex:'id'
+            },
+            {
+                title: '用户名',
+                key: 'userName',
+                dataIndex: 'userName'
+            },
+            {
+                title: '性别',
+                key: 'sex',
+                dataIndex: 'sex',
+                render(sex){
+                    return sex ==1 ?'男':'女'
+                }
+            },
+            {
+                title: '状态',
+                key: 'state',
+                dataIndex: 'state',
+                render(state){
+                    let config  = {
+                        '1':'咸鱼一条',
+                        '2':'风华浪子',
+                        '3':'北大才子',
+                        '4':'百度FE',
+                        '5':'创业者'
+                    }
+                    return config[state];
+                }
+            },
+            {
+                title: '爱好',
+                key: 'interest',
+                dataIndex: 'interest',
+                render(abc) {
+                    let config = {
+                        '1': '游泳',
+                        '2': '打篮球',
+                        '3': '踢足球',
+                        '4': '跑步',
+                        '5': '爬山',
+                        '6': '骑行',
+                        '7': '桌球',
+                        '8': '麦霸'
+                    }
+                    return config[abc];
+                }
+            },
+            {
+                title: '生日',
+                key: 'birthday',
+                dataIndex: 'birthday'
+            },
+            {
+                title: '年龄',
+                key: 'age',
+                dataIndex: 'age',
+                sorter: (a, b) => a.age - b.age,
+                // sortOrder: sortedInfo.order,
+            },
+            {
+                title: '地址',
+                key: 'address',
+                dataIndex: 'address'
+            },
+            {
+                title: '早起时间',
+                key: 'time',
+                dataIndex: 'time'
+            }
+        ]
         const data = [
         {
             id:'0',
@@ -207,38 +296,35 @@ export default class BasicTab extends React.Component{
         }
 
 
-        return <div>
-            <Card title="基础表格" className="card-wrap">
+        return <div>            
+            <Card title="头部固定" className="card-wrap">
               <Table
                 bordered
                 columns={columns}
-                dataSource = {data}
                 pagination={false}
-              
-              />
-            </Card>
-
-            <Card title="动态数据渲染表格" className="card-wrap">
-              <Table
-                bordered
-                columns={columns}
+                scroll={{y:240}}
                 dataSource = {this.state.dataSource} />
             </Card>
-            <Card title="动态数据渲染表格 - Mock-单选" className="card-wrap">
+
+            <Card title="年龄排序" className="card-wrap">
+              <Table
+                bordered
+                columns={columns1}
+                rowSelection={rowSelection}
+               
+                dataSource = {this.state.dataSource} />
+            </Card>
+
+            <Card title="表格排序" className="card-wrap">
               <Table
                 bordered
                 columns={columns}
                 rowSelection={rowSelection}
-                onRow={(record,index) => {
-                    return {
-                      onClick: () => {
-                          this.onRowClick(record,index)
-                      }, // 点击行
-                    
-                    };
-                  }}
+               onChange={this.hendleChange}
                 dataSource = {this.state.dataSource} />
             </Card>
+
+
             <Card title="Mock-多选" className="card-wrap">
                 <div>
                     <Button onClick={this.handleDelete}>删除</Button>
