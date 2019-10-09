@@ -12,8 +12,11 @@ import Gallery from './pages/ui/gallerys'
 
 import BasicTab from './pages/table/basicTable'
 import HighTable from './pages/table/highTable'
+import Order from './pages/order/index'
+
 
 import NoMatch from './pages/nomatch'
+import City from './pages/city/index'
 export default class IRouter extends React.Component{
 
     render(){
@@ -35,8 +38,8 @@ export default class IRouter extends React.Component{
                                 <Route path="/ui/gallery" component={Gallery}></Route>
                                 <Route path="/table/basic" component={BasicTab}></Route>
                                 <Route path="/table/high" component={HighTable}></Route>
-
-
+                                <Route path="/city" component={City}></Route>
+                                <Route path="/Order" component={Order}></Route>
 
 
                                 <Route  component={NoMatch}></Route>
