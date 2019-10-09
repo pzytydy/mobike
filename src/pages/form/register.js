@@ -1,0 +1,84 @@
+import React  from 'react'
+import {Card,Form,Input,Button,message,Checkbox,Select,Switch,DatePicker,TimePicker,Upload,Icon,Radio, InputNumber} from 'antd' 
+
+const FormItem= Form.Item;
+const RadioGroup = Radio.Group;
+class FormLRegister extends React.Component{
+
+    handleSubmit=()=>{
+       let userInfo =  this.props.form.getFieldsValue();
+        this.props.form.validateFields((err,values)=>{
+            if (!err) {
+                message.success(`${userInfo.username} 欢迎您`)
+            } else {
+                
+            }
+        })
+    }
+    render(){
+        
+        const { getFieldDecorator, getFieldsError, getFieldError, isFieldTouched } = this.props.form;
+        const formItemLayout = {
+            labelCol: {
+              xs: { span: 24 },
+              sm: { span: 6 },
+            },
+            wrapperCol: {
+              xs: { span: 24 },
+              sm: { span: 18 },
+            },
+          };
+        return (
+            <div> 
+                <Card>
+                <Form title="水平方向表单"  style={{width:400}}>
+                        <FormItem label="用户名" {...formItemLayout}>
+                            {
+                            getFieldDecorator('username',{
+                                rules: [
+                                    { required: true, message: '账号不能为空!' },  ],
+                            })(
+                            <Input placeholder="请输入账号" />
+
+                            )}
+                            
+                            
+                        </FormItem>
+                        <FormItem   label="密 &nbsp; &nbsp;码" {...formItemLayout}>
+                            {
+                                getFieldDecorator('password',{
+                                rules: [
+                                    { required: true, message: '密码不能为空!' },
+                                    {min:5,max:10,message: '不再长度范围内!'}
+                                ],
+                               
+                                })(
+                            <Input placeholder="请输入密码"/>
+
+                                )} 
+                        </FormItem>
+
+                        <FormItem   label="年&nbsp;&nbsp;龄" {...formItemLayout}>
+                            {
+                                getFieldDecorator('age',{
+                                    initialValue:'1',
+                                    rules:[{
+                                        min:0,
+                                        max:100
+                                    }]
+                                })(
+                                   <InputNumber></InputNumber>
+                                )} 
+                        </FormItem>
+
+                        <FormItem >
+                            <Button type="primary" onClick={this.handleSubmit}>登录</Button>
+                        </FormItem>
+                    </Form>
+                </Card>
+            </div>
+        )
+    }
+
+}
+export default  Form.create()(FormLRegister);
