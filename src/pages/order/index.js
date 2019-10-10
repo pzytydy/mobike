@@ -6,12 +6,41 @@ const FormItem = Form.Item;
 const { Option } = Select;
 export default class Order extends React.Component{
 
-    state={
-
-    }
+    state = {
+        selectedRowKeys: [], // Check here to configure the default column
+        
+      };
     params = {
         page:1
     }
+
+    formList =[
+        {
+            type:'SELECT',
+            label:'城市',
+            field:'city',
+            placeholder:'全部',
+            initiaValue:'1',
+            width:100,
+            list: [{ id: '0', name: '全部' }, { id: '1', name: '北京' }, { id: '2', name: '天津' }, { id: '3', name: '上海' }]
+
+        },
+        {
+            type:'时间查询',
+          
+        },
+        {
+            type:'订单状态',
+            label:'城市',
+            field:'order_status',
+            placeholder:'全部',
+            initiaValue:'1',
+            width:100,
+            list: [{ id: '0', name: '全部' }, { id: '1', name: '进行中' }, { id: '2', name: '天津' }, { id: '3', name: '结束行程' }]
+
+        }
+    ]
+
     componentDidMount(){
         this.requestList()
     }
@@ -31,8 +60,7 @@ export default class Order extends React.Component{
                     item.key = index;
                     return item;
                 })
-            console.log(list)
-
+            // console.log(list)
                 this.setState({
                     list,
                     pagination:Utils.pagination(res,(current)=>{
@@ -42,6 +70,32 @@ export default class Order extends React.Component{
                 })
             }
         })
+    }
+    //订单详情
+    openOrderDetail=()=>{
+        let item = this.state.selectedItem;
+        if (!item) {
+            Modal.info({
+                title:"信息",
+                content:"请选择一条订单"
+            })
+            return;
+        }
+        window.open(`/#/common/order/detail/${item.id}`,'_blank')
+    }
+    onRowClick=(record,index)=>{
+        let selectKey = [index];
+        this.setState({
+            selectedRowKeys: selectKey,
+            selectedItem: record
+        })
+        console.log(record)
+    }
+
+    //查询
+    handleFilterSubmit =()=>{
+        let fieldsValue = this.props.form.getFieldsValue();
+        this.props.filterSubmit(fieldsValue);
     }
 
     render(){
@@ -94,14 +148,20 @@ export default class Order extends React.Component{
                 dataIndex: 'user_pay'
             }
         ]
+
+        const selectedRowKeys = this.state.selectedRowKeys;
+        const rowSelection = {
+            type: 'radio',
+            selectedRowKeys
+        }
         return (
             <div>
                 <Card>
                     <FilterForm/>
                 </Card>
                 <Card style={{marginTop:10}}>
-                    <Button>订单详情</Button>
-                    <Button>结束订单</Button>
+                    <Button type='primary' onClick={this.openOrderDetail} style={{margin:'0 20px'}}>订单详情</Button>
+                    <Button type='primary'>结束订单</Button>
                 </Card>
                 <div className="content-wrap">
                     <Table
@@ -109,6 +169,14 @@ export default class Order extends React.Component{
                      columns={columns}
                      dataSource = {this.state.list}
                      pagination = {this.state.page}
+                     rowSelection = {rowSelection}
+                     onRow={(record,index)=>{
+                         return {
+                             onClick:(e)=>{
+                                 this.onRowClick(record,index)
+                             }
+                         }
+                     }}
                      />
                 </div>
             </div>
@@ -140,21 +208,24 @@ class FilterForm extends React.Component{
                     )
                 }
             </FormItem>
-            <FormItem label='订单时间'>
+            <FormItem label='订单初始时间'>
                 {
                     getFieldDecorator('start_time')(
                         <DatePicker showTime format="YYYY-MM-DD HH:mm:ss" />,
                     )
                 }
-                {
-                    getFieldDecorator('end_time')(
-                        <DatePicker  style={{marginLeft:10}}  showTime format="YYYY-MM-DD HH:mm:ss" />,
-                    )
-                }
+                
+            </FormItem>
+            <FormItem label='订单结束时间'  >
+                    {
+                        getFieldDecorator('end_time')(
+                            <DatePicker   showTime format="YYYY-MM-DD HH:mm:ss" />,
+                        )
+                    }
             </FormItem>
             <FormItem label='订单状态'>
                 {
-                    getFieldDecorator('op_mode')(
+                    getFieldDecorator('order_status')(
                         <Select 
                         style={{width:150}}
                         
@@ -169,8 +240,8 @@ class FilterForm extends React.Component{
             </FormItem>
             
             <FormItem >
-                <Button type='primary' style={{margin:'0 20px'}}>查询</Button>
-                <Button>重置</Button>
+                <Button type='primary' style={{margin:'0 20px'}} onClick={this.handleFilterSubmit}>查询</Button>
+                <Button onClick={this.reset}>重置</Button>
 
             </FormItem>
         </Form>

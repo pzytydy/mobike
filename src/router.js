@@ -17,6 +17,8 @@ import Order from './pages/order/index'
 
 import NoMatch from './pages/nomatch'
 import City from './pages/city/index'
+import OrderDetail from './pages/order/detail'
+import Common from './conmom'
 export default class IRouter extends React.Component{
 
     render(){
@@ -27,19 +29,19 @@ export default class IRouter extends React.Component{
                     <Route path="/admin" component={Admin}/>
                     <Route path="/order/detail" component={}/> */}
                     <Route path="/login" component={Login}></Route>
-                    <Route path="/" render={()=>
+                    <Route path="/admin" render={()=>
                         <Admin>
                              <Switch>
-                                <Route path="/ui/buttons" component={Button}></Route>
-                                <Route path="/ui/modals" component={Modals}></Route>
-                                <Route path="/ui/loadings" component={Loadings}></Route>
-                                <Route path="/ui/notification" component={Notice}></Route>
-                                <Route path="/ui/tabs" component={Tabs}></Route>
-                                <Route path="/ui/gallery" component={Gallery}></Route>
-                                <Route path="/table/basic" component={BasicTab}></Route>
-                                <Route path="/table/high" component={HighTable}></Route>
-                                <Route path="/city" component={City}></Route>
-                                <Route path="/Order" component={Order}></Route>
+                                <Route path="/admin/ui/buttons" component={Button}></Route>
+                                <Route path="/admin/ui/modals" component={Modals}></Route>
+                                <Route path="/admin/ui/loadings" component={Loadings}></Route>
+                                <Route path="/admin/ui/notification" component={Notice}></Route>
+                                <Route path="/admin/ui/tabs" component={Tabs}></Route>
+                                <Route path="/admin/ui/gallery" component={Gallery}></Route>
+                                <Route path="/admin/table/basic" component={BasicTab}></Route>
+                                <Route path="/admin/table/high" component={HighTable}></Route>
+                                <Route path="/admin/city" component={City}></Route>
+                                <Route path="/admin/Order" component={Order}></Route>
 
 
                                 <Route  component={NoMatch}></Route>
@@ -48,7 +50,12 @@ export default class IRouter extends React.Component{
                         </Admin>                    
                     
                     }></Route>
-                    <Route path="/order/detail" component={Login}></Route>
+                    <Route path="/common" render = {()=>
+                        <Common>
+                            <Route path="/common/order/detail/:orderId" component={OrderDetail} />
+                        </Common>
+                    }                    
+                    />
                 </App>
             </HashRouter>
         );

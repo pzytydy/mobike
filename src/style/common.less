@@ -1,5 +1,20 @@
 @import './default.less';
 @import './loading.less';
+ul,li{
+    list-style: none;
+}
+
+.clearfix{
+    zoom : 1;
+    display : block;
+    &:after{
+        content: " ";
+        visibility: hidden;
+        clear: both;
+        display: block;
+    }
+}
+
 .container{
     .nav-left{
         height: calc(100vh);

@@ -26,8 +26,7 @@ export default class Axios{
 
     static ajax(options){
         let loading= document.getElementById('ajaxLoading');
-        if (options.data && options.data.isShowLoading !== false){
-            
+        if (options.data && options.data.isShowLoading !== false){            
             loading.style.display = 'block';
         }
         let baseApi = 'https://easy-mock.bookset.io/mock/5d9d58957355f52bcfe165e7/example';
@@ -43,6 +42,7 @@ export default class Axios{
                     loading.style.display = 'none';
                 }
                 if (response.status == '200'){
+                    // console.log(response)
                     let res = response.data;
                     if (res.code == '0'){
                         resolve(res);
