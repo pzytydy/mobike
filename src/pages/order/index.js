@@ -2,6 +2,7 @@ import React from 'react'
 import {Card , Button , Table ,Form, Select, Modal, message, DatePicker} from 'antd'
 import axios from './../../axios/index'
 import Utils from './../../utils/utils'
+import ETable from './../../conponents/ETable/index'
 const FormItem = Form.Item;
 const { Option } = Select;
 export default class Order extends React.Component{
@@ -47,29 +48,30 @@ export default class Order extends React.Component{
 
     requestList = ()=>{
         let _this = this;
-        axios.ajax({
-            url:'/order/list',
-            data:{
-                params:{
-                    page:this.params.page
-                }
-            }
-        }).then((res)=>{
-            if (res.code=='0') {
-                let list = res.result.item_list.map((item,index)=>{
-                    item.key = index;
-                    return item;
-                })
-            // console.log(list)
-                this.setState({
-                    list,
-                    pagination:Utils.pagination(res,(current)=>{
-                        _this.params.page = current;
-                        _this.requestList();
-                    })
-                })
-            }
-        })
+        axios.requestList(this,'/order/list',this.params,true)
+        // axios.ajax({
+        //     url:'/order/list',
+        //     data:{
+        //         params:{
+        //             page:this.params.page
+        //         }
+        //     }
+        // }).then((res)=>{
+        //     if (res.code=='0') {
+        //         let list = res.result.item_list.map((item,index)=>{
+        //             item.key = index;
+        //             return item;
+        //         })
+        //     // console.log(list)
+        //         this.setState({
+        //             list,
+        //             pagination:Utils.pagination(res,(current)=>{
+        //                 _this.params.page = current;
+        //                 _this.requestList();
+        //             })
+        //         })
+        //     }
+        // })
     }
     //订单详情
     openOrderDetail=()=>{
@@ -164,7 +166,17 @@ export default class Order extends React.Component{
                     <Button type='primary'>结束订单</Button>
                 </Card>
                 <div className="content-wrap">
-                    <Table
+                   <ETable
+                    updateSelectedItem = {Utils.updateSelectedItem.bind(this)}
+                    columns={columns}
+                    dataSource= {this.state.list}
+                    selectedRowKeys = {this.state.selectedRowKeys}
+                    pagination = {this.state.pagination}
+                    rowSelection = {rowSelection}
+                   
+                   />
+                   
+                    {/* <Table
                      bordered
                      columns={columns}
                      dataSource = {this.state.list}
@@ -177,7 +189,7 @@ export default class Order extends React.Component{
                              }
                          }
                      }}
-                     />
+                     /> */}
                 </div>
             </div>
         )

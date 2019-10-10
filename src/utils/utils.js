@@ -18,4 +18,10 @@ export default{
             showQuickJumper:true
         }
     },
+    updateSelectedItem(selectedRowKeys,selectedItem){
+        this.setState({
+            selectedRowKeys,
+            selectedItem
+        })
+    }
 }
