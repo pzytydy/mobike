@@ -18,6 +18,7 @@ import Order from './pages/order/index'
 import NoMatch from './pages/nomatch'
 import City from './pages/city/index'
 import OrderDetail from './pages/order/detail'
+import User from './pages/user/index'
 import Common from './conmom'
 export default class IRouter extends React.Component{
 
@@ -41,7 +42,8 @@ export default class IRouter extends React.Component{
                                 <Route path="/admin/table/basic" component={BasicTab}></Route>
                                 <Route path="/admin/table/high" component={HighTable}></Route>
                                 <Route path="/admin/city" component={City}></Route>
-                                <Route path="/admin/Order" component={Order}></Route>
+                                <Route path="/admin/order" component={Order}></Route>
+                                <Route path="/admin/user" component={User}></Route>
 
 
                                 <Route  component={NoMatch}></Route>
